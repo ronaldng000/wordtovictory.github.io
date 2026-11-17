@@ -1,8 +1,4 @@
 import React from 'react';
-import {SocialIcon} from 'react-social-icons/component'
-import 'react-social-icons/instagram'
-import 'react-social-icons/facebook'
-import 'react-social-icons/youtube'
 
 export default function Footer() {
     return (
