@@ -97,16 +97,16 @@ Commands below run from the repository root.
 **Description:** Correct the two catalog names and move existing progress onto the new keys during read, so a refresh does not drop chapters the reader already marked.
 
 **Acceptance criteria:**
-- [ ] The grid shows `Isaiah` and `Philippians`
-- [ ] Stored `Isiah_N=true` becomes `Isaiah_N=true`, and `Isiah_N` is removed
-- [ ] Stored `Phillipians_N=true` becomes `Philippians_N=true`, and `Phillipians_N` is removed
-- [ ] When both the old key and the new key exist, the new key’s value remains and the old key is removed
-- [ ] A chapter marked read under the old name still shows read after reload
+- [x] The grid shows `Isaiah` and `Philippians`
+- [x] Stored `Isiah_N=true` becomes `Isaiah_N=true`, and `Isiah_N` is removed
+- [x] Stored `Phillipians_N=true` becomes `Philippians_N=true`, and `Phillipians_N` is removed
+- [x] When both the old key and the new key exist, the new key’s value remains and the old key is removed
+- [x] A chapter marked read under the old name still shows read after reload
 
 **Verification:**
-- [ ] Tests pass: `CI=true npm test -- --watchAll=false`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: with an old `Isiah_1` value set in `localStorage`, refresh and confirm the Isaiah 1 button is read and the old key is gone
+- [x] Tests pass: `CI=true npm test -- --watchAll=false`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: with an old `Isiah_1` value set in `localStorage`, refresh and confirm the Isaiah 1 button is read and the old key is gone
 
 **Dependencies:** Task 3
 
@@ -119,8 +119,8 @@ Commands below run from the repository root.
 
 ## Checkpoint: Complete
 
-- [ ] Old spelling keys migrate and the buttons show the corrected names
-- [ ] `CI=true npm test -- --watchAll=false` passes
-- [ ] `npm run build` succeeds
-- [ ] All acceptance criteria met
+- [x] Old spelling keys migrate and the buttons show the corrected names
+- [x] `CI=true npm test -- --watchAll=false` passes
+- [x] `npm run build` succeeds
+- [x] All acceptance criteria met
 - [ ] Ready for review

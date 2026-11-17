@@ -51,13 +51,13 @@ This plan covers the required findings from the review of `Bug-fix` at `744235c`
 
 ### Phase 3: Catalog names
 
-- [ ] Task 4: Rename Isaiah and Philippians and migrate stored keys
+- [x] Task 4: Rename Isaiah and Philippians and migrate stored keys
 
 ### Checkpoint: Complete
 
-- [ ] Old spelling keys migrate and the buttons show the corrected names
-- [ ] `CI=true npm test -- --watchAll=false` passes
-- [ ] `npm run build` succeeds
+- [x] Old spelling keys migrate and the buttons show the corrected names
+- [x] `CI=true npm test -- --watchAll=false` passes
+- [x] `npm run build` succeeds
 - [ ] Ready for review
 
 ## Out of scope
