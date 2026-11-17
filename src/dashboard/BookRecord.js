@@ -1,6 +1,7 @@
 import '../App.css';
 import Button from '@mui/material/Button';
 import Box from "@mui/material/Box";
+import {writeRecord} from "../bible/readingRecord";
 
 const bookRecordstyle = {display: 'flex'};
 const bookNameStyle = {flex: '0 0 120px'}
@@ -11,12 +12,10 @@ export default function BookRecord(props) {
 
     const toggleRead = (event) => {
         const chapterKey = event.currentTarget.value;
-        const currentRead = readStatus[chapterKey];
-        const newRead = !currentRead;
-        const newReadStatus = {...readStatus};
-        newReadStatus[chapterKey] = newRead;
-        setReadStatus(newReadStatus);
-        localStorage.setItem(chapterKey, JSON.stringify(newRead));
+        setReadStatus(writeRecord({
+            ...readStatus,
+            [chapterKey]: !readStatus[chapterKey],
+        }));
     };
 
     const getReadStatus = (chapterKey) => {

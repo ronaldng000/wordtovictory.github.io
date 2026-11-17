@@ -1,6 +1,7 @@
 import '../App.css';
 import {BOOKS} from '../bible/constants.ts';
-import {useEffect, useState} from "react";
+import {useState} from "react";
+import {readRecord} from "../bible/readingRecord";
 import {Box, Grid} from "@mui/material";
 import BookRecord from "./BookRecord";
 import StatisticsPanel from "./StatisticsPanel";
@@ -16,18 +17,7 @@ const statisticsPanelStyle = {
 
 function Dashboard() {
 
-    const [readStatus, setReadStatus] = useState({});
-
-    useEffect(() => {
-        const readStatus = {}
-        BOOKS.map(book => {
-            for (let i = 1; i < book.numChapters + 1; i++) {
-                const chapterKey = book.name + "_" + i;
-                readStatus[chapterKey] = localStorage.getItem(chapterKey) === "true";
-            }
-        })
-        setReadStatus(readStatus);
-    }, [])
+    const [readStatus, setReadStatus] = useState(readRecord);
 
     return (
         <Box sx={{
