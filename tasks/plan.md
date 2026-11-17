@@ -39,14 +39,14 @@ This plan covers the required findings from the review of `Bug-fix` at `744235c`
 ### Phase 2: One record writer
 
 - [x] Task 2: Persist a chapter toggle through the record module
-- [ ] Task 3: Make clear and load replace the whole record
+- [x] Task 3: Make clear and load replace the whole record
 
 ### Checkpoint: Record flow
 
-- [ ] Toggle, clear, full load, partial load, and a bad file are covered by tests
-- [ ] `CI=true npm test -- --watchAll=false` passes
-- [ ] `npm run build` succeeds
-- [ ] Manual check of toggle, clear, and load
+- [x] Toggle, clear, full load, partial load, and a bad file are covered by tests
+- [x] `CI=true npm test -- --watchAll=false` passes
+- [x] `npm run build` succeeds
+- [x] Manual check of toggle, clear, and load
 - [ ] Review with human before proceeding
 
 ### Phase 3: Catalog names

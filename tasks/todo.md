@@ -64,16 +64,16 @@ Commands below run from the repository root.
 **Description:** Route Clear All and Load through the record module. A successful load replaces every chapter, so chapters omitted from a valid file become unread in `localStorage`. An invalid file changes nothing and shows an error.
 
 **Acceptance criteria:**
-- [ ] Clear All sets every known chapter to `false` in React state and in `localStorage`
-- [ ] A valid import with a partial `readStatus` sets omitted chapters to `false` in `localStorage`, including keys that were `"true"` before the import
-- [ ] An empty `readStatus` object is valid and clears every chapter
-- [ ] These inputs do not change state or `localStorage`, and the screen shows “That file is not a Bible Track record.” with `role="alert"`: invalid JSON, a non-array, a missing `readStatus` object, a non-boolean value, an unknown key
-- [ ] The same file can be chosen again after a successful load
+- [x] Clear All sets every known chapter to `false` in React state and in `localStorage`
+- [x] A valid import with a partial `readStatus` sets omitted chapters to `false` in `localStorage`, including keys that were `"true"` before the import
+- [x] An empty `readStatus` object is valid and clears every chapter
+- [x] These inputs do not change state or `localStorage`, and the screen shows “That file is not a Bible Track record.” with `role="alert"`: invalid JSON, a non-array, a missing `readStatus` object, a non-boolean value, an unknown key
+- [x] The same file can be chosen again after a successful load
 
 **Verification:**
-- [ ] Tests pass: `CI=true npm test -- --watchAll=false`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: save a record, clear it, load the file back; then load a text file that is not JSON and confirm the record is unchanged and the error line appears
+- [x] Tests pass: `CI=true npm test -- --watchAll=false`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: save a record, clear it, load the file back; then load a text file that is not JSON and confirm the record is unchanged and the error line appears
 
 **Dependencies:** Task 2
 
@@ -86,10 +86,10 @@ Commands below run from the repository root.
 
 ## Checkpoint: After Tasks 2-3
 
-- [ ] Toggle, clear, full load, partial load, and a bad file are covered by tests
-- [ ] `CI=true npm test -- --watchAll=false` passes
-- [ ] `npm run build` succeeds
-- [ ] Manual check of toggle, clear, and load
+- [x] Toggle, clear, full load, partial load, and a bad file are covered by tests
+- [x] `CI=true npm test -- --watchAll=false` passes
+- [x] `npm run build` succeeds
+- [x] Manual check of toggle, clear, and load
 - [ ] Review with human before proceeding
 
 ## Task 4: Rename Isaiah and Philippians and migrate stored keys
