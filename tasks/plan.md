@@ -34,11 +34,11 @@ This plan covers the required findings from the review of `Bug-fix` at `744235c`
 
 - [x] `CI=true npm test -- --watchAll=false` passes
 - [x] `npm run build` succeeds
-- [ ] Review with human before proceeding
+- [x] Review with human before proceeding
 
 ### Phase 2: One record writer
 
-- [ ] Task 2: Persist a chapter toggle through the record module
+- [x] Task 2: Persist a chapter toggle through the record module
 - [ ] Task 3: Make clear and load replace the whole record
 
 ### Checkpoint: Record flow

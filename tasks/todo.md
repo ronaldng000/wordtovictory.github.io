@@ -31,23 +31,23 @@ Commands below run from the repository root.
 - [x] `CI=true npm test -- --watchAll=false` passes
 - [x] `npm run build` succeeds
 - [x] The page shows Genesis and the chapter total
-- [ ] Review with human before proceeding
+- [x] Review with human before proceeding
 
 ## Task 2: Persist a chapter toggle through the record module
 
 **Description:** Add `src/bible/readingRecord.js` and route the initial load and chapter toggle through it. A toggle writes the full chapter map to `localStorage` and React state, using `"true"` and `"false"` for every known chapter.
 
 **Acceptance criteria:**
-- [ ] `readRecord` returns a boolean for every chapter in `BOOKS`. A missing key is `false`. Only the stored string `"true"` is read.
-- [ ] `writeRecord` stores every known chapter and returns that same complete map
-- [ ] `Dashboard` initializes state from `readRecord`. `BookRecord` toggles by writing the full map through `writeRecord`
-- [ ] Clicking Genesis chapter 1 marks that chapter read, stores `Genesis_1` as `"true"`, and the statistics line shows `1 of 1189 chapters read`
-- [ ] Remounting `App` shows Genesis 1 still read
+- [x] `readRecord` returns a boolean for every chapter in `BOOKS`. A missing key is `false`. Only the stored string `"true"` is read.
+- [x] `writeRecord` stores every known chapter and returns that same complete map
+- [x] `Dashboard` initializes state from `readRecord`. `BookRecord` toggles by writing the full map through `writeRecord`
+- [x] Clicking Genesis chapter 1 marks that chapter read, stores `Genesis_1` as `"true"`, and the statistics line shows `1 of 1189 chapters read`
+- [x] Remounting `App` shows Genesis 1 still read
 
 **Verification:**
-- [ ] Tests pass: `CI=true npm test -- --watchAll=false`
-- [ ] Build succeeds: `npm run build`
-- [ ] Manual check: toggle a chapter, refresh, and confirm it stays read
+- [x] Tests pass: `CI=true npm test -- --watchAll=false`
+- [x] Build succeeds: `npm run build`
+- [x] Manual check: toggle a chapter, refresh, and confirm it stays read
 
 **Dependencies:** Task 1
 
