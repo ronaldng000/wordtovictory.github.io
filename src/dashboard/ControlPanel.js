@@ -1,8 +1,8 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Button from "@mui/material/Button";
 import {Box} from "@mui/material";
 import exportFromJSON from "export-from-json";
-import {BOOKS} from '../bible/constants.ts';
+import {IMPORT_ERROR, parseImport, writeRecord} from '../bible/readingRecord';
 
 export default function ControlPanel(props) {
 
@@ -13,6 +13,7 @@ export default function ControlPanel(props) {
 
     const {readStatus, setReadStatus} = props;
     const inputRef = useRef(null);
+    const [loadError, setLoadError] = useState('');
 
     const handleSave = () => {
         const data = [{readStatus: readStatus}];
@@ -21,17 +22,25 @@ export default function ControlPanel(props) {
         exportFromJSON({data, fileName, exportType});
     };
     const handleInputLoad = (event) => {
-        if (event.target.files.length) {
-            event.target.files[0]
-                .text()
-                .then((data) => JSON.parse(data))
-                .then((data) => {
-                    setReadStatus(data[0].readStatus);
-                    Object.entries(data[0].readStatus).forEach(
-                        ([key, value]) => localStorage.setItem(key, value)
-                    );
-                });
+        const input = event.target;
+        const file = input.files && input.files[0];
+        input.value = '';
+        if (!file) {
+            return;
         }
+        file.text()
+            .then((text) => {
+                const parsed = parseImport(text);
+                if (!parsed.ok) {
+                    setLoadError(IMPORT_ERROR);
+                    return;
+                }
+                setLoadError('');
+                setReadStatus(writeRecord(parsed.record));
+            })
+            .catch(() => {
+                setLoadError(IMPORT_ERROR);
+            });
     };
 
     const handleLoad = () => {
@@ -40,17 +49,8 @@ export default function ControlPanel(props) {
     };
 
     const handleClearAll = () => {
-        console.log("Clearing all");
-        const readStatus = {}
-        BOOKS.map(book => {
-            for (let i = 1; i < book.numChapters + 1; i++) {
-                const chapterKey = book.name + "_" + i;
-                // readStatus[chapterKey] = false;
-                localStorage.setItem(chapterKey, "false");
-            }
-        })
-        console.log(readStatus);
-        setReadStatus(readStatus);
+        setLoadError('');
+        setReadStatus(writeRecord({}));
     };
 
 
@@ -79,6 +79,7 @@ export default function ControlPanel(props) {
                     hidden
                 />
             </Button>
+            {loadError ? <p role="alert">{loadError}</p> : null}
         </Box>
     );
 };

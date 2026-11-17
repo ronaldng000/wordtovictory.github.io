@@ -26,3 +26,25 @@ export function writeRecord(partial) {
     }
     return record;
 }
+
+export const IMPORT_ERROR = 'That file is not a Bible Track record.';
+
+export function parseImport(text) {
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch {
+        return {ok: false};
+    }
+    const readStatus = Array.isArray(data) ? data[0] && data[0].readStatus : undefined;
+    if (readStatus == null || typeof readStatus !== 'object' || Array.isArray(readStatus)) {
+        return {ok: false};
+    }
+    const knownKeys = new Set(Object.keys(emptyRecord()));
+    for (const [key, value] of Object.entries(readStatus)) {
+        if (!knownKeys.has(key) || typeof value !== 'boolean') {
+            return {ok: false};
+        }
+    }
+    return {ok: true, record: readStatus};
+}

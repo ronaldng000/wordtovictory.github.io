@@ -1,6 +1,17 @@
-import {fireEvent, render, screen, within} from '@testing-library/react';
+import {fireEvent, render, screen, waitFor, within} from '@testing-library/react';
 import App from './App';
-import {readRecord, writeRecord} from './bible/readingRecord';
+import {IMPORT_ERROR, readRecord, writeRecord} from './bible/readingRecord';
+
+if (typeof File.prototype.text !== 'function') {
+    File.prototype.text = function text() {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result));
+            reader.onerror = () => reject(reader.error);
+            reader.readAsText(this);
+        });
+    };
+}
 
 beforeEach(() => {
     localStorage.clear();
@@ -57,4 +68,83 @@ test('toggling Genesis 1 stays read after remount', () => {
 
     expect(genesisChapter(1)).toHaveClass('MuiButton-contained');
     expect(screen.getByText('1 of 1189 chapters read')).toBeInTheDocument();
+});
+
+function loadRecord(contents) {
+    const file = new File([contents], 'record.json', {type: 'application/json'});
+    const input = document.querySelector('input[type="file"]');
+    fireEvent.change(input, {target: {files: [file]}});
+    return input;
+}
+
+test('clear all marks every stored chapter unread', () => {
+    writeRecord({Genesis_1: true});
+    render(<App/>);
+
+    fireEvent.click(screen.getByRole('button', {name: 'Clear All'}));
+
+    expect(localStorage.getItem('Genesis_1')).toBe('false');
+    expect(screen.getByText('0 of 1189 chapters read')).toBeInTheDocument();
+    expect(genesisChapter(1)).toHaveClass('MuiButton-outlined');
+});
+
+test('a partial import marks omitted chapters unread', async () => {
+    writeRecord({Genesis_2: true});
+    render(<App/>);
+
+    loadRecord(JSON.stringify([{readStatus: {Genesis_1: true}}]));
+
+    await waitFor(() => {
+        expect(localStorage.getItem('Genesis_1')).toBe('true');
+    });
+    expect(localStorage.getItem('Genesis_2')).toBe('false');
+    expect(screen.getByText('1 of 1189 chapters read')).toBeInTheDocument();
+});
+
+test('an empty import clears every chapter', async () => {
+    writeRecord({Genesis_1: true});
+    render(<App/>);
+
+    loadRecord(JSON.stringify([{readStatus: {}}]));
+
+    await waitFor(() => {
+        expect(screen.getByText('0 of 1189 chapters read')).toBeInTheDocument();
+    });
+    expect(localStorage.getItem('Genesis_1')).toBe('false');
+});
+
+test.each([
+    '{',
+    '{}',
+    '[{"note": true}]',
+    '[{"readStatus": {"Genesis_1": "true"}}]',
+    '[{"readStatus": {"NotABook_1": true}}]',
+])('rejects a bad record without changing stored chapters: %s', async (contents) => {
+    writeRecord({Genesis_1: true});
+    render(<App/>);
+
+    loadRecord(contents);
+
+    await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(IMPORT_ERROR);
+    });
+    expect(localStorage.getItem('Genesis_1')).toBe('true');
+    expect(screen.getByText('1 of 1189 chapters read')).toBeInTheDocument();
+});
+
+test('the file input can load the same record again', async () => {
+    render(<App/>);
+    const contents = JSON.stringify([{readStatus: {Genesis_1: true}}]);
+
+    const input = loadRecord(contents);
+    await waitFor(() => {
+        expect(localStorage.getItem('Genesis_1')).toBe('true');
+    });
+    expect(input.value).toBe('');
+
+    writeRecord({});
+    loadRecord(contents);
+    await waitFor(() => {
+        expect(localStorage.getItem('Genesis_1')).toBe('true');
+    });
 });
