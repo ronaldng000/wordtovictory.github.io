@@ -132,6 +132,65 @@ test.each([
     expect(screen.getByText('1 of 1189 chapters read')).toBeInTheDocument();
 });
 
+function chapterButton(bookName, number) {
+    const row = screen.getByText(bookName).parentElement;
+    return within(row).getByRole('button', {name: String(number)});
+}
+
+test('the grid spells Isaiah and Philippians', () => {
+    render(<App/>);
+
+    expect(screen.getByText('Isaiah')).toBeInTheDocument();
+    expect(screen.getByText('Philippians')).toBeInTheDocument();
+    expect(screen.queryByText('Isiah')).not.toBeInTheDocument();
+    expect(screen.queryByText('Phillipians')).not.toBeInTheDocument();
+});
+
+test('readRecord moves an old Isaiah key onto the corrected name', () => {
+    localStorage.setItem('Isiah_1', 'true');
+
+    const record = readRecord();
+
+    expect(record.Isaiah_1).toBe(true);
+    expect(localStorage.getItem('Isaiah_1')).toBe('true');
+    expect(localStorage.getItem('Isiah_1')).toBe(null);
+});
+
+test('readRecord moves an old Philippians key onto the corrected name', () => {
+    localStorage.setItem('Phillipians_1', 'true');
+
+    const record = readRecord();
+
+    expect(record.Philippians_1).toBe(true);
+    expect(localStorage.getItem('Philippians_1')).toBe('true');
+    expect(localStorage.getItem('Phillipians_1')).toBe(null);
+});
+
+test('readRecord keeps the corrected key when both spellings exist', () => {
+    localStorage.setItem('Isiah_2', 'true');
+    localStorage.setItem('Isaiah_2', 'false');
+    localStorage.setItem('Phillipians_3', 'false');
+    localStorage.setItem('Philippians_3', 'true');
+
+    const record = readRecord();
+
+    expect(record.Isaiah_2).toBe(false);
+    expect(record.Philippians_3).toBe(true);
+    expect(localStorage.getItem('Isaiah_2')).toBe('false');
+    expect(localStorage.getItem('Philippians_3')).toBe('true');
+    expect(localStorage.getItem('Isiah_2')).toBe(null);
+    expect(localStorage.getItem('Phillipians_3')).toBe(null);
+});
+
+test('a chapter marked read under the old name stays read on the renamed button', () => {
+    localStorage.setItem('Isiah_1', 'true');
+    render(<App/>);
+
+    expect(chapterButton('Isaiah', 1)).toHaveClass('MuiButton-contained');
+    expect(localStorage.getItem('Isiah_1')).toBe(null);
+    expect(screen.getByText('1 of 1189 chapters read')).toBeInTheDocument();
+});
+
 test('the file input can load the same record again', async () => {
     render(<App/>);
     const contents = JSON.stringify([{readStatus: {Genesis_1: true}}]);

@@ -10,7 +10,34 @@ function emptyRecord() {
     return record;
 }
 
+const LEGACY_BOOK_NAMES = [
+    ['Isiah', 'Isaiah'],
+    ['Phillipians', 'Philippians'],
+];
+
+function migrateLegacyBookNames() {
+    for (const [oldName, newName] of LEGACY_BOOK_NAMES) {
+        const book = BOOKS.find((item) => item.name === newName);
+        if (!book) {
+            continue;
+        }
+        for (let chapter = 1; chapter <= book.numChapters; chapter++) {
+            const oldKey = oldName + '_' + chapter;
+            const stored = localStorage.getItem(oldKey);
+            if (stored === null) {
+                continue;
+            }
+            const newKey = newName + '_' + chapter;
+            if (localStorage.getItem(newKey) === null) {
+                localStorage.setItem(newKey, stored);
+            }
+            localStorage.removeItem(oldKey);
+        }
+    }
+}
+
 export function readRecord() {
+    migrateLegacyBookNames();
     const record = emptyRecord();
     for (const key of Object.keys(record)) {
         record[key] = localStorage.getItem(key) === 'true';

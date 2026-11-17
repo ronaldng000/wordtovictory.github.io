@@ -31,7 +31,7 @@ class Book {
     static PROVERBS: Book = new Book('Proverbs', 31, 'PRO');
     static ECCLESIASTES: Book = new Book('Ecclesiastes', 12, 'ECC');
     static SONGOFSONGS: Book = new Book('Song of Songs', 8, 'SNG');
-    static ISIAH: Book = new Book('Isiah', 66, 'ISA');
+    static ISIAH: Book = new Book('Isaiah', 66, 'ISA');
     static JEREMIAH: Book = new Book('Jeremiah', 52, 'JER');
     static LAMENTATIONS: Book = new Book('Lamentations', 5, 'LAM');
     static EZEKIEL: Book = new Book('Ezekiel', 48, 'EZK');
@@ -58,7 +58,7 @@ class Book {
     static CORINTHIANS2: Book = new Book('2 Corinthians', 13, '2CO');
     static GALATIANS: Book = new Book('Galatians', 6, 'GAL');
     static EPHESIANS: Book = new Book('Ephesians', 6, 'EPH');
-    static PHILLIPIANS: Book = new Book('Phillipians', 4, 'PHP');
+    static PHILLIPIANS: Book = new Book('Philippians', 4, 'PHP');
     static COLOSSIANS: Book = new Book('Colossians', 4, 'COL');
     static THESSALONIANS1: Book = new Book('1 Thessalonians', 5, '1TH');
     static THESSALONIANS2: Book = new Book('2 Thessalonians', 3, '2TH');
